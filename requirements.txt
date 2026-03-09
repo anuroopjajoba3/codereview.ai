@@ -1,0 +1,8 @@
+anthropic
+gitpython
+click
+rich
+python-dotenv
+fastapi
+uvicorn
+pydantic

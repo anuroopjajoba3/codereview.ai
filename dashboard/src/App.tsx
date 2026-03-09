@@ -40,7 +40,7 @@ function App() {
     addLine('> Generating improvements...');
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/review', { diff });
+      const response = await axios.post('http://3.236.220.25:8000/review', { diff });
       const data: ReviewResult = response.data;
       setResult(data);
 
