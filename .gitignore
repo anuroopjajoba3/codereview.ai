@@ -5,3 +5,5 @@ __pycache__/
 .DS_Store
 node_modules/
 out/
+dashboard/node_modules/
+dashboard/build/
