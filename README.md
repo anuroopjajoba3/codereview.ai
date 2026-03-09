@@ -2,9 +2,11 @@
 
 AI-powered code review tool that analyzes your git diffs and catches bugs, security issues, and improvements before they reach production.
 
-## Demo
+## Live Demo
 
-![CodeReview.AI Dashboard](dashboard/public/demo.png)
+🌐 **Dashboard:** http://codereview-ai-dashboard.s3-website-us-east-1.amazonaws.com  
+⚙️ **API:** http://3.236.220.25:8000/docs  
+🐳 **Docker:** `docker run -p 8000:8000 -e ANTHROPIC_API_KEY=your-key anuroopjajoba3/codereview-ai`
 
 ## Features
 
@@ -17,95 +19,98 @@ AI-powered code review tool that analyzes your git diffs and catches bugs, secur
 - 🛑 **Git Hook** — automatically blocks commits with security issues
 - 💻 **VS Code Extension** — review code without leaving your editor
 
-## Tech Stack
+## Getting Started
 
-**Backend:** Python, FastAPI, Claude API (Anthropic)  
-**Frontend:** React, TypeScript  
-**DevTools:** Git Hooks, VS Code Extension API  
-**Libraries:** GitPython, Click, Rich, Pydantic
+### Option 1 — Live Dashboard (no setup)
+Just paste your git diff and click Review Code. No installation needed.
 
-## Quick Start
+🌐 **http://codereview-ai-dashboard.s3-website-us-east-1.amazonaws.com**
 
-### 1. Clone the repo
-\`\`\`bash
+---
+
+### Option 2 — CLI (run on your own machine)
+```bash
 git clone https://github.com/anuroopjajoba3/codereview.ai.git
-cd codereview-ai
-\`\`\`
-
-### 2. Set up Python environment
-\`\`\`bash
+cd codereview.ai
 python3 -m venv venv
 source venv/bin/activate
-pip install anthropic gitpython click rich python-dotenv fastapi uvicorn
-\`\`\`
-
-### 3. Add your API key
-\`\`\`bash
+pip install -r requirements.txt
 echo "ANTHROPIC_API_KEY=your-key-here" > .env
-\`\`\`
+```
 
-### 4. Run CLI review
-\`\`\`bash
-git add .
-python3 main.py
-\`\`\`
+Get your free API key at **console.anthropic.com**
 
-### 5. Run API server
-\`\`\`bash
-uvicorn api:app --reload
-\`\`\`
+Then go to your project and run:
+```bash
+cd your-project
+python3 /path/to/codereview.ai/main.py
+```
 
-### 6. Run Dashboard
-\`\`\`bash
-cd dashboard
-npm install
-npm start
-\`\`\`
+---
 
-## Install Git Hook
+### Option 3 — Git Hook (auto-review on every commit)
+```bash
+cp /path/to/codereview.ai/pre-commit your-project/.git/hooks/pre-commit
+chmod +x your-project/.git/hooks/pre-commit
+```
 
-Automatically review code before every commit:
-\`\`\`bash
-cp pre-commit .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-\`\`\`
+Now every `git commit` automatically reviews your code and blocks commits with security issues.
 
-Now every `git commit` will trigger an AI review. Commits with security issues are **blocked automatically**.
+---
+
+### Option 4 — Docker (no Python setup needed)
+```bash
+docker run -p 8000:8000 -e ANTHROPIC_API_KEY=your-key-here anuroopjajoba3/codereview-ai
+```
+
+API runs at `http://localhost:8000` — use the `/docs` endpoint to explore.
+
+---
+
+> **Note:** Options 2, 3, and 4 require a free Anthropic API key from [console.anthropic.com](https://console.anthropic.com)
 
 ## API
-
-\`\`\`bash
+```bash
 POST /review
 Content-Type: application/json
 
 {
   "diff": "your git diff here"
 }
-\`\`\`
+```
 
 Response:
-\`\`\`json
+```json
 {
   "bugs": [],
   "security": ["Hardcoded password found"],
   "improvements": ["Use environment variables"]
 }
-\`\`\`
+```
+
+## Tech Stack
+
+**Backend:** Python, FastAPI, Claude API (Anthropic)  
+**Frontend:** React, TypeScript  
+**DevTools:** Git Hooks, VS Code Extension API, Docker, GitHub Actions  
+**Libraries:** GitPython, Click, Rich, Pydantic  
+**Cloud:** AWS EC2, AWS S3
 
 ## Project Structure
-
-\`\`\`
+```
 codereview-ai/
 ├── diff.py          # Git diff extraction
 ├── review.py        # Claude API integration
 ├── main.py          # CLI entry point
 ├── api.py           # FastAPI backend
 ├── pre-commit       # Git hook
+├── Dockerfile       # Docker config
+├── requirements.txt # Python dependencies
 ├── dashboard/       # React frontend
 └── src/             # VS Code extension
-\`\`\`
+```
 
 ## Built By
 
-Anuroop Jajoba — MS Information Technology, University of New Hampshire  
+Anuroop Jajoba
 [LinkedIn](https://linkedin.com/in/anuroopjajoba) • [GitHub](https://github.com/anuroopjajoba3)
