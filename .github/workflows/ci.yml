@@ -1,0 +1,33 @@
+name: CodeReview.AI CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic gitpython click rich python-dotenv fastapi uvicorn pydantic
+
+      - name: Check imports
+        run: |
+          python3 -c "import anthropic, git, click, rich, fastapi"
+          echo "✅ All imports successful"
+
+      - name: Verify API structure
+        run: |
+          python3 -c "from api import app; print('✅ FastAPI app loaded')"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
