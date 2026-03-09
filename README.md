@@ -1,71 +1,111 @@
-# codereview-ai README
+# ⚡ CodeReview.AI
 
-This is the README for your extension "codereview-ai". After writing up a brief description, we recommend including the following sections.
+AI-powered code review tool that analyzes your git diffs and catches bugs, security issues, and improvements before they reach production.
+
+## Demo
+
+![CodeReview.AI Dashboard](dashboard/public/demo.png)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 🐛 **Bug Detection** — catches logic errors and edge cases
+- 🔐 **Security Analysis** — flags hardcoded secrets, SQL injection, eval/exec usage
+- ✨ **Code Improvements** — suggests better patterns and best practices
+- 🖥️ **CLI Tool** — run reviews directly from your terminal
+- 🌐 **React Dashboard** — visual interface with terminal-style UI
+- 🔗 **FastAPI Backend** — REST API for integrations
+- 🛑 **Git Hook** — automatically blocks commits with security issues
+- 💻 **VS Code Extension** — review code without leaving your editor
 
-For example if there is an image subfolder under your extension project workspace:
+## Tech Stack
 
-\!\[feature X\]\(images/feature-x.png\)
+**Backend:** Python, FastAPI, Claude API (Anthropic)  
+**Frontend:** React, TypeScript  
+**DevTools:** Git Hooks, VS Code Extension API  
+**Libraries:** GitPython, Click, Rich, Pydantic
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Quick Start
 
-## Requirements
+### 1. Clone the repo
+\`\`\`bash
+git clone https://github.com/anuroopjajoba3/codereview.ai.git
+cd codereview-ai
+\`\`\`
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### 2. Set up Python environment
+\`\`\`bash
+python3 -m venv venv
+source venv/bin/activate
+pip install anthropic gitpython click rich python-dotenv fastapi uvicorn
+\`\`\`
 
-## Extension Settings
+### 3. Add your API key
+\`\`\`bash
+echo "ANTHROPIC_API_KEY=your-key-here" > .env
+\`\`\`
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### 4. Run CLI review
+\`\`\`bash
+git add .
+python3 main.py
+\`\`\`
 
-For example:
+### 5. Run API server
+\`\`\`bash
+uvicorn api:app --reload
+\`\`\`
 
-This extension contributes the following settings:
+### 6. Run Dashboard
+\`\`\`bash
+cd dashboard
+npm install
+npm start
+\`\`\`
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Install Git Hook
 
-## Known Issues
+Automatically review code before every commit:
+\`\`\`bash
+cp pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+\`\`\`
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Now every `git commit` will trigger an AI review. Commits with security issues are **blocked automatically**.
 
-## Release Notes
+## API
 
-Users appreciate release notes as you update your extension.
+\`\`\`bash
+POST /review
+Content-Type: application/json
 
-### 1.0.0
+{
+  "diff": "your git diff here"
+}
+\`\`\`
 
-Initial release of ...
+Response:
+\`\`\`json
+{
+  "bugs": [],
+  "security": ["Hardcoded password found"],
+  "improvements": ["Use environment variables"]
+}
+\`\`\`
 
-### 1.0.1
+## Project Structure
 
-Fixed issue #.
+\`\`\`
+codereview-ai/
+├── diff.py          # Git diff extraction
+├── review.py        # Claude API integration
+├── main.py          # CLI entry point
+├── api.py           # FastAPI backend
+├── pre-commit       # Git hook
+├── dashboard/       # React frontend
+└── src/             # VS Code extension
+\`\`\`
 
-### 1.1.0
+## Built By
 
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Anuroop Jajoba — MS Information Technology, University of New Hampshire  
+[LinkedIn](https://linkedin.com/in/anuroopjajoba) • [GitHub](https://github.com/anuroopjajoba3)
